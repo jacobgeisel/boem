@@ -7,12 +7,10 @@ jobs:
   include:
   - stage: test
     script:
-    - mvn -f fr.ibp.odv.boem.parent clean test
+    - mvn clean test
   - stage: deploy
     script:
-    - mvn -f fr.ibp.odv.boem.parent install
-    - chmod +x pushToBintray.sh
-    - "./pushToBintray.sh boem-nightly nightly releng/fr.ibp.odv.boem.updatesite/target/repository"
+    - mvn clean verify
 env:
   global:
   - BINTRAY_OWNER=i-bp

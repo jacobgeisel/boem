@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <groupId>fr.ibp.odv.boem</groupId>
+  <artifactId>fr.ibp.odv.boem.container</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <name>Boem Container</name>
+
+  <properties>
+    <tycho.version>1.1.0</tycho.version>
+    <gitflow-maven-plugin.version>1.9.0</gitflow-maven-plugin.version>
+  </properties>
+
+  <modules>
+    <!-- parent plugin -->
+    <module>fr.ibp.odv.boem.parent</module>
+    <!-- plugins -->
+    <module>plugins/fr.ibp.odv.boem.lib</module>
+  </modules>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.amashchenko.maven.plugin</groupId>
+          <artifactId>gitflow-maven-plugin</artifactId>
+          <version>${gitflow-maven-plugin.version}</version>
+          <configuration>
+            <tychoBuild>true</tychoBuild>
+            <gitFlowConfig>
+              <productionBranch>master</productionBranch>
+              <developmentBranch>master</developmentBranch>
+            </gitFlowConfig>
+            <releaseRebase>true</releaseRebase>
+            <origin>origin</origin>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-versions-plugin</artifactId>
+          <version>${tycho.version}</version>
+          <configuration>
+            <artifacts>boem-container,fr.ibp.odv.boem.parent</artifacts>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>tests</id>
+      <activation>
+        <property>
+          <name>maven.test.skip</name><value>!true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>tests/fr.ibp.odv.boem.mm.test</module>
+        <module>tests/fr.ibp.odv.boem.tests</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>releng</id>
+      <activation>
+        <property>
+          <name>releng.skip</name><value>!true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>releng/fr.ibp.odv.boem.feature</module>
+        <module>releng/fr.ibp.odv.boem.updatesite</module>
+      </modules>
+    </profile>
+  </profiles>
+
+</project>
+
